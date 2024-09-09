@@ -4,6 +4,10 @@ import pandas as pd
 import seaborn as sns
 import statsmodels.api as sm
 
+# Verificando se  diretorio 'Data' existe e criando se necessario
+if not os.path.exists('data'):
+    os.makedirs("data")
+    
 # Carregar Dados
 data = pd.read_csv("data/openvas_scan_results.csv")
 
@@ -81,7 +85,7 @@ print(model.summary())
 
 # Gráficos
 plt.figure(figsize=(14, 8))
-ax = sns.barplot(x="priority", y="risk_score", data=data_sorted, estimator='mean')
+ax = sns.barplot(x="priority", y="risk_score", data=data_sorted, estimator='mean', palette="viridis")
 plt.title("Distribuição de Vulnerabilidades por Prioridade")
 plt.xlabel("Prioridade")
 plt.ylabel("Pontuação de Risco")
@@ -94,18 +98,13 @@ for p in ax.patches:
                 xytext=(0, 5), textcoords='offset points')
 
 # Adicionando identificação das vulnerabilidades na imagem
-for i, row in enumerate(data_sorted.iterrows()):
-    index, row = row
-    ax.annotate(row["NVT Name"], 
-                (i, row["risk_score"]),
-                ha='center', va='center', 
-                xytext=(0, -25), textcoords='offset points', 
-                fontsize=8, rotation=0)  # Ajuste a fonte e a rotação conforme necessário
-
-
-# Verificando se  diretorio 'Data' existe e criando se necessario
-if not os.path.exists('data'):
-    os.makedirs("data")
+    for i, row in enumerate(data_sorted.iterrows()):
+        index, row = row
+        ax.annotate(f'{row["NVT Name"]}\nRisk Score: {row["risk_score"]:.2f}', 
+                    (i % len(ax.get_xticks()), row["risk_score"]),
+                    ha='center', va='center', 
+                    xytext=(70, -25), textcoords='offset points', 
+                    fontsize=8, rotation=0)
 
 # Salvando imagem
 plt.savefig("data/priority_distribution.png")

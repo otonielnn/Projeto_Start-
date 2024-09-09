@@ -23,4 +23,8 @@
     pip install pandas statsmodels matplotlib seaborn
     ```
 
-- Subindo container docker seguindo [documentação da comunidade](https://greenbone.github.io/docs/latest/22.4/container/index.html)
+- Subindo container docker seguindo [documentação da comunidade do Greenbone](https://greenbone.github.io/docs/latest/22.4/container/index.html)
+
+- Crie uma pasta chamada `data` ou rode o arquivo `analise_vunerabilidade.py` para criar a pasta.
+
+- adicione o arquivo `.csv` gerado pelo GreenBone, renomeando para `openvas_scan_results.csv`
